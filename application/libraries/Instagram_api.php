@@ -1,7 +1,10 @@
 <?php
 
 /**
- * CodeIgniter Instagram Library by Ian Luckraft	http://ianluckraft.co.uk	ian@ianluckraft.co.uk
+ * CodeIgniter Instagram Library
+ * Created by	Ian Luckraft	http://ianluckraft.co.uk	ian@ianluckraft.co.uk
+ * This fork by	James Chevalier	http://jameschevalier.us
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
@@ -27,11 +30,6 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Instagram_api {
 
 	/*
-	 * Variable to hold an insatance of CodeIgniter so we can access CodeIgniter features
-	 */
-	protected $codeigniter_instance;
-
-	/*
 	 * Create an array of the urls to be used in api calls
 	 * The urls contain conversion specifications that will be replaced by sprintf in the functions
 	 * @var string
@@ -45,8 +43,8 @@ class Instagram_api {
         'user_follows'				=> 'https://api.instagram.com/v1/users/%s/follows?access_token=%s',
         'user_followed_by'			=> 'https://api.instagram.com/v1/users/%s/followed-by?access_token=%s',
         'user_requested_by'			=> 'https://api.instagram.com/v1/users/self/requested-by?access_token=%s',
-        'user_relationship'			=> 'https://api.instagram.com/v1/users/%s/relationship?access_token=%s',
-        'modify_user_relationship'	=> 'https://api.instagram.com/v1/users/%s/relationship?action=%s&access_token=%s',
+        'user_relationship'			=> 'https://api.instagram.com/v1/users/%d/relationship?access_token=%s',
+        'modify_user_relationship'	=> 'https://api.instagram.com/v1/users/%d/relationship?access_token=%s',
         'media'						=> 'https://api.instagram.com/v1/media/%d?access_token=%s',
         'media_search'				=> 'https://api.instagram.com/v1/media/search?lat=%s&lng=%s&max_timestamp=%d&min_timestamp=%d&distance=%d&access_token=%s',
         'media_popular'				=> 'https://api.instagram.com/v1/media/popular?access_token=%s',
@@ -61,7 +59,8 @@ class Instagram_api {
         'tags_search'				=> 'https://api.instagram.com/v1/tags/search?q=%s&access_token=%s',
         'locations'					=> 'https://api.instagram.com/v1/locations/%d?access_token=%s',
         'locations_recent'			=> 'https://api.instagram.com/v1/locations/%d/media/recent/?max_id=%d&min_id=%d&max_timestamp=%d&min_timestamp=%d&access_token=%s',
-        'locations_search'			=> 'https://api.instagram.com/v1/locations/search?lat=%s&lng=%s&foursquare_id=%d&distance=%d&access_token=%s'
+        'locations_search'			=> 'https://api.instagram.com/v1/locations/search?lat=%s&lng=%s&foursquare_id=%d&foursquare_v2_id=%d&distance=%d&access_token=%s',
+        'geography_endpoints'		=> 'https://api.instagram.com/v1/geographies/%d/media/recent?access_token=%s'
     );
     
     /*
@@ -152,7 +151,7 @@ class Instagram_api {
     
     /*
      * Get an individual user's details
-     * Accepts a user id
+     * Accepts user id (or "self")
      * @param string Instagram user id (or "self")
      * @return std_class data about the Instagram user
      */
@@ -166,7 +165,7 @@ class Instagram_api {
     
     /*
      * Get an individual user's feed
-     * Accepts optional max, min, and count values
+     * Accepts (optionally) max, min, count
      * @param int Return media earlier than this max_id
      * @param int Return media later than this min_id
      * @param int Count of media to return
@@ -182,7 +181,7 @@ class Instagram_api {
     
     /*
      * Function to get a users recent published media
-     * Accepts a user id and access token and optional max id, min id, count, max timestamp and min timestamp
+     * Accepts user id (or "self") and (optionally) max id, min id, count, max timestamp, min timestamp
      * @param string Instagram user id (or "self")
      * @param int Return media earlier than this max_id
      * @param int Return media later than this min_id
@@ -201,7 +200,7 @@ class Instagram_api {
 
     /*
      * Function to get a users recent liked media
-     * Accepts a user id and access token (and technically accepts "max_like_id" and "count" but those aren't implemented yet)
+     * Accepts user id (or "self"), and (optionally) max id, count
      * @param string Instagram user id (or "self")
      * @param int Return media liked before this id
      * @param int Count of media to return
@@ -217,7 +216,7 @@ class Instagram_api {
 
     /*
      * Function to Search for a user by name
-     * Accepts a query to search for
+     * Accepts query, and (optionally) count
      * @param string A query string
      * @param int Number of users to return
      * @return std_class user data
@@ -231,9 +230,9 @@ class Instagram_api {
     }
     
     /*
-     * Function to get all users the current user follows
-     * Accepts a user id
-     * @param int user id
+     * Function to get all users the provided user follows
+     * Accepts user id (or "self")
+     * @param string Instagram user id (or "self")
      * @return std_class user's recent feed items
      */
     function userFollows($user_id) {
@@ -246,8 +245,8 @@ class Instagram_api {
     
     /*
      * Function to get all users the current user follows
-     * Accepts a user id
-     * @param int user id
+     * Accepts user id (or "self")
+     * @param string Instagram user id (or "self")
      * @return std_class other users that follow the one passed in
      */
     function userFollowedBy($user_id) {
@@ -260,7 +259,6 @@ class Instagram_api {
     
     /*
      * Function to find who a user was requested by
-     * Accepts an access token
      * @return std_class users who have requested this user's permission to follow
      */
     function userRequestedBy() {
@@ -273,7 +271,8 @@ class Instagram_api {
     
     /*
      * Function to get information about the current user's relationship (follow/following/etc) to another user
-     * @param int user id
+     * Accepts user id
+     * @param int Instagram user id
      * @return std_class user's relationship to another user
      */
     function userRelationship($user_id) {
@@ -285,22 +284,30 @@ class Instagram_api {
     }
     
 	/*
-     * Function to modify the relationship between the current user and the target user
-     * @param string Instagram user id (or "self")
+     * NOT IMPLEMENTED Function to modify the relationship between the current user and the target user
+     * Accepts user id, and action
+     * @param int Instagram user id
      * @param string action to effect relatonship (follow/unfollow/block/unblock/approve/deny)
      * @return std_class result of request
      */
     function modifyUserRelationship($user_id, $action) {
     	
+    	/*
+    	// *** NEED TO LOOK INTO THIS FURTHER ***
+    	// Documentation states it is a POST to /users/{user-id}/relationship with a parameter 'action'
+    	// The example does not include 'action':
+    	// https://api.instagram.com/v1/users/1574083/relationship?access_token=103467.f59def8.cecb6db66a2e4522b74a243fdd235603
+
     	$user_modify_relationship_request_url = sprintf($this->api_urls['modify_user_relationship'], $user_id, $action, $this->access_token);
     	
     	return $this->__apiCall($user_modify_relationship_request_url);
+    	*/
     	
     }
     
     /*
      * Function to get data about a media id
-     * Accepts a media id
+     * Accepts media id
      * @param int media id
      * @return std_class data about the media item
      */
@@ -314,7 +321,7 @@ class Instagram_api {
     
     /*
      * Function to search for media
-     * Accepts optional parameters
+     * Accepts (optionally) latitude, longitude, max timestamp, min timestamp, distance
      * @param int latitude
      * @param int longitude
      * @param int max timestamp
@@ -344,6 +351,7 @@ class Instagram_api {
     
     /*
      * Function to gget a full list of comments on a media
+     * Accepts media id
      * @param int media id
      * @return std_class media comments
      */
@@ -356,36 +364,56 @@ class Instagram_api {
     }
     
     /*
-     * Function to post a media comment
+     * NOT IMPLEMENTED Function to post a media comment
+     * Accepts media id, text
      * @param int media id
+     * @param string media comment
      * @return std_class response to request
      */
-    function postMediaComment($media_id) {
+    function postMediaComment($media_id, $media_comment) {
     
-    	/********* NEED TO LOOK INTO THIS FURTHER *************/
-    
-    	/*$post_media_comment_url = sprintf($this->api_urls['post_media_comment'], $media_id, $this->access_token);
+    	/*
+    	// *** NEED TO LOOK INTO THIS FURTHER ***
+    	// Documentation states it is a POST to /media/{media-id}/comments with a parameter 'text'
+    	// The example provided is:
+
+    //	curl -F 'access_token=$this->access_token' \
+    //		-F 'text=$media_comment' \
+    //		https://api.instagram.com/v1/media/$media_id/comments
+     	
+    	$post_media_comment_url = sprintf($this->api_urls['post_media_comment'], $media_id, $this->access_token);
     	
-    	return $this->__apiCall($post_media_comment_url);*/    	
+    	return $this->__apiCall($post_media_comment_url);
+    	*/    	
     
     }
     
     /*
      * Function to delete a media comment
+     * Accepts media id, comment id
      * @param int media id
      * @param int comment id
      * @return std_class response to request
      */
     function deleteMediaComment($media_id, $comment_id) {
+
+    	/*
+    	// *** NEED TO LOOK INTO THIS FURTHER ***
+		// Documentation states it is a DELETE to /media/{media-id}/comments/{comment-id}
+    	// The example provided is:
+    	
+    //	curl -X DELETE https://api.instagram.com/v1/media/$media_id/comments?access_token=$this->access_token
     
     	$delete_media_comment_url = sprintf($this->api_urls['delete_media_comment'], $media_id, $this->access_token);
     	
     	return $this->__apiCall($delete_media_comment_url);
+    	*/
     
     }
     
     /*
      * Function to get a list of users who have liked this media
+     * Accepts media id
      * @param int media id
      * @return std_class list of users
      */
@@ -398,33 +426,53 @@ class Instagram_api {
     }
     
     /*
-     * Function to post a like for a media item
+     * NOT IMPLEMENTED Function to post a like for a media item
+     * Accepts media id
      * @param int media id
      * @return std_class response to request
      */
     function postLike($media_id) {
     
+    	/*
+    	// *** NEED TO LOOK INTO THIS FURTHER ***
+    	//Documentation states it is a POST to /media/{media-id}/likes
+    	// The example provided is:
+
+	//	curl -F 'access_token=$this->access_token' \
+	//		https://api.instagram.com/v1/media/$media_id/likes
+     
         $post_media_like_request_url = sprintf($this->api_urls['post_like'], $media_id, $this->access_token);
     	
     	return $this->__apiCall($post_media_like_request_url);
+		*/
     
     }
 
 	/*
-	 * Function to remove a like for a media item
+	 * NOT IMPLEMENTED Function to remove a like for a media item
+     * Accepts media id
 	 * @param int media id
 	 * @return std_class response to request
 	 */
     function removeLike($media_id) {
     
+    	/*
+    	// *** NEED TO LOOK INTO THIS FURTHER ***
+		// Documentation states it is a DELETE to /media/{media-id}/likes/
+    	// The example provided is:
+    	
+    //	curl -X DELETE https://api.instagram.com/v1/media/$media_id/likes?access_token=$this->access_token
+    	
     	$remove_like_request_url = sprintf($this->api_urls['remove_like'], $media_id, $this->access_token);
     	
     	return $this->__apiCall($remove_like_request_url);
+		*/
     	
     }
     
     /*
      * Function to get information about a tag object
+     * Accepts tag
      * @param string tag
      * @return std_class of data about the tag
      */
@@ -438,6 +486,7 @@ class Instagram_api {
     
     /*
      * Function to get a list of recently tagged media
+     * Accepts tag, max id, min id
      * @param string tag
      * @param int return media after this max_id
      * @param int return media before this min_id
@@ -453,19 +502,21 @@ class Instagram_api {
     
 	/*
      * Function to search for tagged media
+     * Accepts query
      * @param string valid tag name without a leading #. (eg. snow, nofilter)
      * @return std_class tags by name - results are ordered first as an exact match, then by popularity
      */
-    function tagsSearch($tag) {
+    function tagsSearch($query) {
     
-    	$tags_search_request_url = sprintf($this->api_urls['tags_search'], $tag, $this->access_token);
+    	$tags_search_request_url = sprintf($this->api_urls['tags_search'], $query, $this->access_token);
     	
     	return $this->__apiCall($tags_search_request_url);
     
     }
     
     /*
-     * Function to get information about a location. 
+     * Function to get information about a location.
+     * Accepts location
      * @param int location id
      * @return std_class data about the location
      */
@@ -479,6 +530,7 @@ class Instagram_api {
     
     /*
      * Function to get a list of recent media objects from a given location.
+     * Accepts location, and (optionally) max id, min id, max timestamp, min timestamp
      * @param int location id
      * @param int return media after this max_id
      * @param int return media before this min_id
@@ -496,17 +548,33 @@ class Instagram_api {
     
     /*
      * Function to search for locations used in Instagram
+     * Accepts latitude, longitude, foursquare id, foursquare v2 id, distance
      * @param int latitude of the center search coordinate. If used, longitude is required
      * @param int longitude of the center search coordinate. If used, latitude is required
      * @param int Foursquare id. Returns a location mapped off of a foursquare v1 api location id. If used, you are not required to use lat and lng. Note that this method will be deprecated over time and transitioned to new foursquare IDs with V2 of their API.
+     * @param int Foursquare v2 id. Returns a location mapped off of a foursquare v2 api location id. If used, you are not required to use lat and lng.
      * @param int distance. Default is 1000m (distance=1000), max distance is 5000
      * @return std_class location data
      */
-    function locationSearch($latitude = null, $longitude = null, $foursquare_id = null, $distance = null) {
+    function locationSearch($latitude = null, $longitude = null, $foursquare_id = null, $foursquare_v2_id = null, $distance = null) {
     
-    	$location_search_request_url = sprintf($this->api_urls['locations_search'], $latitude, $longitude, $foursquare_id, $distance, $this->access_token);
+    	$location_search_request_url = sprintf($this->api_urls['locations_search'], $latitude, $longitude, $foursquare_id, $foursquare_v2_id, $distance, $this->access_token);
     	
     	return $this->__apiCall($location_search_request_url);
+    
+    }
+
+    /*
+     * UNTESTED Function to get most recent media from a geography subscription that you created. Note: you can only access Geographies that were explicitly created by your OAuth client.
+     * Accepts media id
+     * @param int media id
+     * @return std_class something
+     */
+    function geographyEndpoints($media_id) {
+    
+    	$geography_endpoints_request_url = sprintf($this->api_urls['geography_endpoints'], $media_id, $this->access_token);
+    	
+    	return $this->__apiCall($geography_endpoints_request_url);
     
     }
 
