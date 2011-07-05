@@ -16,6 +16,10 @@ This library provides a CodeIgniter application access to the Instagram API.
 * Copy the application/controllers/instagram.php file to the application/controllers folder in your CodeIgniter application
 * Enter your registered client details, supplied by Instagram, into this library's application/config/config.php file
 * Copy the contents of this library's application/config/config.php file into your CodeIgniter application's config.php file
+	- If you'd prefer to keep a separate configuration file:
+		* Rename this library's application/config/config.php file to Instagram_config.php
+		* Copy the file into your CodeIgniter application's application/config directory
+		* Load the configuration file in your Controller with the code: $this->config->load('Instagram_config');
 * Authorize your CodeIgniter application to use your Instagram account by using the provided Controller & entering the access token into the corresponding configuration variable
 * Add the following code to your Controller to load the library, set the required variables, and set the access token:
 $this->load->library('instagram_api');
@@ -44,7 +48,7 @@ All Instagram API functions, apart from getPopularMedia(), require an access tok
 
 In cases of the USERS endpoint of the Instagram API, where the passed variable is "$userid", you may substitute the string "self" to return the authenticated user's information.
 
-Use can use this general code format to make a function call and display it's relevant output:
+You can use this general code format to make a function call and display it's relevant output:
 	$igdata = $this->instagram_api->getUserFeed("self");
 	$igres = $igdata->data;
 	echo "<pre>";
