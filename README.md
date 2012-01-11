@@ -71,11 +71,13 @@ Library Specific
 
 Produce the link required to authorize Instagram:
 `$this->instagram_api->instagramLogin($ig_client_id, $ig_redirect_uri);`
+
 * $ig_client_id is your client's client ID
 * $if_redirect_uri is your client's redirect uri
 
 Authorize to Instagram:
 `$this->instagram_api->authorize($ig_client_id, $ig_client_secret, $ig_redirect_uri, $code);`
+
 * $ig_client_id is your client's client ID
 * $ig_client_secret is your client's secret
 * $if_redirect_uri is your client's redirect uri
@@ -87,6 +89,7 @@ No Authentication Necessary
 
 Get the latest popular photos:
 `$this->instagram_api->getPopularMedia($ig_client_id);`
+
 * This function only requires your Instagram client id and no OAuth token
 
 
@@ -95,16 +98,19 @@ USERS
 
 Get basic information about a user:
 `$this->instagram_api->getUser($user_id);`
+
 * $user_id is either the ID of a user or "self" (with the quotes)
 
 See the authenticated user's feed:
 `$this->instagram_api->getUserFeed($max, $min, $count);`
+
 * $max (optional) Return media earlier than this max_id
 * $min (optional) Return media later than this min_id
 * $count (optional) Count of media to return
 
 Get the most recent media published by a user:
 `$this->instagram_api->getUserRecent($user_id, $max_id, $min_id, $count, $max_timestamp, $min_timestamp);`
+
 * $user_id is either the ID of a user or "self" (with the quotes)
 * $max (optional) Return media earlier than this max_id
 * $min (optional) Return media later than this min_id
@@ -114,6 +120,7 @@ Get the most recent media published by a user:
 
 See the authenticated user's list of media they've liked:
 `$this->instagram_api->getUserLikes($user_id, $max_id, $count);`
+
 * $user_id is either the ID of a user or "self" (with the quotes)
 * $max_id (optional) Return media liked before this id
 * $count (optional) Count of media to return
@@ -148,10 +155,12 @@ List the users who have requested this user's permission to follow:
 
 Get information about the current user's relationship (follow/following/etc) to another user:
 `$this->instagram_api->userRelationship($user_id);`
+
 * $user_id is the ID of a user (must be user ID, cannot be "self")
 
 Modify the relationship between the current user and the target user: (*Not implemented yet)
 `$this->instagram_api->modifyUserRelationship($user_id, $action);`
+
 * $user_id is the ID of a user (must be user ID, cannot be "self")
 * $action One of follow/unfollow/block/unblock/approve/deny
 
@@ -161,10 +170,12 @@ MEDIA
 
 Get information about a media object:
 `$this->instagram_api->getMedia($media_id);`
+
 * $media_id is the ID of an image
 
 Search for media in a given area:
 `$this->instagram_api->mediaSearch($latitude, $longitude, $max_timestamp, $min_timestamp, $distance);`
+
 * $latitude Latitude of the center search coordinate. If used, longitude is required.
 * $longitude Longitude of the center search coordinate. If used, latitude is required.
 * $max_timestamp A unix timestamp. All media returned will be taken earlier than this timestamp.
