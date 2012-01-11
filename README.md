@@ -75,9 +75,7 @@ Produce the link required to authorize Instagram:
 * $if_redirect_uri is your client's redirect uri
 
 Authorize to Instagram:
-```php
-	$this->instagram_api->authorize($ig_client_id, $ig_client_secret, $ig_redirect_uri, $code);
-```
+`$this->instagram_api->authorize($ig_client_id, $ig_client_secret, $ig_redirect_uri, $code);`
 * $ig_client_id is your client's client ID
 * $ig_client_secret is your client's secret
 * $if_redirect_uri is your client's redirect uri
@@ -88,9 +86,7 @@ No Authentication Necessary
 ---------------------------
 
 Get the latest popular photos:
-```php
-	$this->instagram_api->getPopularMedia($ig_client_id);
-```
+`$this->instagram_api->getPopularMedia($ig_client_id);`
 * This function only requires your Instagram client id and no OAuth token
 
 
@@ -98,23 +94,17 @@ USERS
 -----
 
 Get basic information about a user:
-```php
-	$this->instagram_api->getUser($user_id);
-```
+`$this->instagram_api->getUser($user_id);`
 * $user_id is either the ID of a user or "self" (with the quotes)
 
 See the authenticated user's feed:
-```php
-	$this->instagram_api->getUserFeed($max, $min, $count);
-```
+`$this->instagram_api->getUserFeed($max, $min, $count);`
 * $max (optional) Return media earlier than this max_id
 * $min (optional) Return media later than this min_id
 * $count (optional) Count of media to return
 
 Get the most recent media published by a user:
-```php
-	$this->instagram_api->getUserRecent($user_id, $max_id, $min_id, $count, $max_timestamp, $min_timestamp);
-```
+`$this->instagram_api->getUserRecent($user_id, $max_id, $min_id, $count, $max_timestamp, $min_timestamp);`
 * $user_id is either the ID of a user or "self" (with the quotes)
 * $max (optional) Return media earlier than this max_id
 * $min (optional) Return media later than this min_id
@@ -149,27 +139,19 @@ Get the list of users this user follows:
 * $user_id is either the ID of a user or "self" (with the quotes)
 
 Get the list of users this user is followed by:
-```php
-	$this->instagram_api->userFollowedBy($user_id);
-```
+`$this->instagram_api->userFollowedBy($user_id);`
 
 * $user_id is either the ID of a user or "self" (with the quotes)
 
 List the users who have requested this user's permission to follow:
-```php
-	$this->instagram_api->userRequestedBy();
-```
+`$this->instagram_api->userRequestedBy();`
 
 Get information about the current user's relationship (follow/following/etc) to another user:
-```php
-	$this->instagram_api->userRelationship($user_id);
-```
+`$this->instagram_api->userRelationship($user_id);`
 * $user_id is the ID of a user (must be user ID, cannot be "self")
 
 Modify the relationship between the current user and the target user: (*Not implemented yet)
-```php
-	$this->instagram_api->modifyUserRelationship($user_id, $action);
-```
+`$this->instagram_api->modifyUserRelationship($user_id, $action);`
 * $user_id is the ID of a user (must be user ID, cannot be "self")
 * $action One of follow/unfollow/block/unblock/approve/deny
 
@@ -178,15 +160,11 @@ MEDIA
 -----
 
 Get information about a media object:
-```php
-	$this->instagram_api->getMedia($media_id);
-```
+`$this->instagram_api->getMedia($media_id);`
 * $media_id is the ID of an image
 
 Search for media in a given area:
-```php
-	$this->instagram_api->mediaSearch($latitude, $longitude, $max_timestamp, $min_timestamp, $distance);
-```
+`$this->instagram_api->mediaSearch($latitude, $longitude, $max_timestamp, $min_timestamp, $distance);`
 * $latitude Latitude of the center search coordinate. If used, longitude is required.
 * $longitude Longitude of the center search coordinate. If used, latitude is required.
 * $max_timestamp A unix timestamp. All media returned will be taken earlier than this timestamp.
@@ -194,9 +172,7 @@ Search for media in a given area:
 * $distance Default is 1km (distance=1000), max distance is 5km
 
 Get a list of what media is most popular at the moment:
-```php
-	$this->instagram_api->popularMedia();
-```
+`$this->instagram_api->popularMedia();`
 
 
 COMMENTS
@@ -205,22 +181,16 @@ COMMENTS
 * Required scope: comments - Be able to create or delete comments on a user's behalf
 
 Get a full list of comments on a media:
-```php
-	$this->instagram_api->mediaComments($media_id);
-```
+`$this->instagram_api->mediaComments($media_id);`
 * $media_id is the ID of an image
 
 Create a comment on a media: (*Not implemented yet)
-```php
-	$this->instagram_api->postMediaComment($media_id, $text);
-```
+`$this->instagram_api->postMediaComment($media_id, $text);`
 * $media_id is the ID of an image
 * $text Text to post as a comment on the media as specified in media-id.
 
 Remove a comment either on the authenticated user's media or authored by the authenticated user: (*Not implemented yet)
-```php
-	$this->instagram_api->deleteMediaComment($media_id, $comment_id);
-```
+`$this->instagram_api->deleteMediaComment($media_id, $comment_id);`
 * $media_id is the ID of an image
 * $comment_id is the ID of a comment
 
@@ -231,21 +201,15 @@ LIKES
 * Required scope: likes - Be able to like and unlike items on a user's behalf
 
 Get a list of users who have liked this media:
-```php
-	$this->instagram_api->mediaLikes($media_id);
-```
+`$this->instagram_api->mediaLikes($media_id);`
 * $media_id is the ID of an image
 
 Set a like on this media by the currently authenticated user: (*Not implemented yet)
-```php
-	$this->instagram_api->postLike($media_id);
-```
+`$this->instagram_api->postLike($media_id);`
 * $media_id is the ID of an image
 
 Remove a like on this media by the currently authenticated user: (*Not implemented yet)
-```php
-	$this->instagram_api->removeLike($media_id);
-```
+`$this->instagram_api->removeLike($media_id);`
 * $media_id is the ID of an image
 
 
@@ -253,24 +217,18 @@ TAGS
 ----
 
 Get information about a tag object:
-```php
-	$this->instagram_api->getTags($tag);
-```
+`$this->instagram_api->getTags($tag);`
 * $tag is the tag name
 
 Get a list of recently tagged media:
-```php
-	$this->instagram_api->tagsRecent($tag, $max_id, $min_id);
-```
+`$this->instagram_api->tagsRecent($tag, $max_id, $min_id);`
 * $tag is the tag name
 * $max_id Return media after this max_id
 * $min_id Return media before this min_id
 * This media is ordered by when the media was tagged with this tag, rather than the order it was posted.
 * Use the max_tag_id and min_tag_id parameters in the pagination response to paginate through these objects.
 
-```php
-	$this->instagram_api->tagsSearch($query);
-```
+`$this->instagram_api->tagsSearch($query);`
 * $query Valid tag name without a leading #. (eg. snow, nofilter)
 
 
@@ -278,24 +236,18 @@ LOCATION
 --------
 
 Get information about a location:
-```php
-	$this->instagram_api->getLocation($location);
-```
+`$this->instagram_api->getLocation($location);`
 * $location is the ID of the location
 
 Get a list of recent media objects from a given location:
-```php
-	$this->instagram_api->locationRecent($location, $max_id, $min_id, $max_timestamp, $min_timestamp);
-```
+`$this->instagram_api->locationRecent($location, $max_id, $min_id, $max_timestamp, $min_timestamp);`
 * $location is the ID of the location
 * $max_id Return media after this max_id
 * $min_id Return media before this min_id
 * $max_timestamp Return media after this UNIX timestamp
 * $min_timestamp Return media before this UNIX timestamp
 
-```php
-	$this->instagram_api->locationSearch($latitude, $longitude, $foursquare_id, $foursquare_v2_id, $distance);
-```
+`$this->instagram_api->locationSearch($latitude, $longitude, $foursquare_id, $foursquare_v2_id, $distance);`
 * $latitude Latitude of the center search coordinate. If used, lng is required.
 * $longitude Longitude of the center search coordinate. If used, lat is required.
 * $foursquare_id Returns a location mapped off of a foursquare v1 api location id. If used, you are not required to use lat and lng. Note that this method is deprecated; you should use the new foursquare IDs with V2 of their API.
@@ -307,8 +259,6 @@ GEOGRAPHIES
 -----------
 
 Get most recent media from a geography subscription that you created: (*Un-tested)
-```php
-	$this->instagram_api->geographyEndpoints($media_id);
-```
-* $media_id is the ID of an image
-* You can only access Geographies that were explicitly created by your OAuth client
+`$this->instagram_api->geographyEndpoints($media_id);`
+	* $media_id is the ID of an image
+	* You can only access Geographies that were explicitly created by your OAuth client
