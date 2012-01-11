@@ -22,7 +22,7 @@ Configuration for Development
 	- If you'd prefer to keep a separate configuration file:
 		* Rename this library's application/config/config.php file to Instagram_config.php
 		* Copy the file into your CodeIgniter application's application/config directory
-		* Load the configuration file in your Controller with the code: $this->config->load('Instagram_config');
+		* Load the configuration file in your Controller with the code `$this->config->load('Instagram_config');`
 * Authorize your CodeIgniter application to use your Instagram account by using the provided Controller & entering the access token into the corresponding configuration variable
 * Add the following code to your Controller to load the library, set the required variables, and set the access token:
 
@@ -53,15 +53,12 @@ Function Reference
 This section of the README is a working list: more functions/features will be added/updated as soon as possible.
 A sample of the function results can be seen at http://ianluckraft.co.uk/demonstrations/instagram-library/welcome/
 
-All Instagram API functions, apart from getPopularMedia(), require an access token which Instagram supplies through OAuth.  This requirement is handled by obtaining the access token, and then setting
-```php
-	$this->instagram_api->access_token"
-```
-after loading this library.
+All Instagram API functions, apart from getPopularMedia(), require an access token which Instagram supplies through OAuth.  This requirement is handled by obtaining the access token, and then setting `$this->instagram_api->access_token"` after loading this library.
 
 In cases of the USERS endpoint of the Instagram API, where the passed variable is "$userid", you may substitute the string "self" to return the authenticated user's information.
 
 You can use this general code format to make a function call and display it's relevant output:
+
 	```php
 	$igdata = $this->instagram_api->getUserFeed("self");
 	$igres = $igdata->data;
@@ -75,9 +72,7 @@ Library Specific
 ----------------
 
 Produce the link required to authorize Instagram:
-```php
-	$this->instagram_api->instagramLogin($ig_client_id, $ig_redirect_uri);
-```
+`$this->instagram_api->instagramLogin($ig_client_id, $ig_redirect_uri);`
 * $ig_client_id is your client's client ID
 * $if_redirect_uri is your client's redirect uri
 
