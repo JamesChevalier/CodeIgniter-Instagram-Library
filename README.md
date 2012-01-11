@@ -138,8 +138,6 @@ Search for a user by name:
 RELATIONSHIPS
 -------------
 
-* Required scope: relationships - Be able to follow and unfollow users on a user's behalf
-
 Get the list of users this user follows:
 `$this->instagram_api->userFollows($user_id);`
 
@@ -189,8 +187,6 @@ Get a list of what media is most popular at the moment:
 COMMENTS
 --------
 
-* Required scope: comments - Be able to create or delete comments on a user's behalf
-
 Get a full list of comments on a media:
 `$this->instagram_api->mediaComments($media_id);`
 
@@ -211,8 +207,6 @@ Remove a comment either on the authenticated user's media or authored by the aut
 
 LIKES
 -----
-
-* Required scope: likes - Be able to like and unlike items on a user's behalf
 
 Get a list of users who have liked this media:
 `$this->instagram_api->mediaLikes($media_id);`
@@ -247,6 +241,7 @@ Get a list of recently tagged media:
 * This media is ordered by when the media was tagged with this tag, rather than the order it was posted.
 * Use the max_tag_id and min_tag_id parameters in the pagination response to paginate through these objects.
 
+Search for photos with a particular tag:
 `$this->instagram_api->tagsSearch($query);`
 
 * $query Valid tag name without a leading #. (eg. snow, nofilter)
@@ -269,6 +264,7 @@ Get a list of recent media objects from a given location:
 * $max_timestamp Return media after this UNIX timestamp
 * $min_timestamp Return media before this UNIX timestamp
 
+Search for photos taken at a particular location:
 `$this->instagram_api->locationSearch($latitude, $longitude, $foursquare_id, $foursquare_v2_id, $distance);`
 
 * $latitude Latitude of the center search coordinate. If used, lng is required.
