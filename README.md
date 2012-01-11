@@ -182,15 +182,18 @@ COMMENTS
 
 Get a full list of comments on a media:
 `$this->instagram_api->mediaComments($media_id);`
+
 * $media_id is the ID of an image
 
 Create a comment on a media: (*Not implemented yet)
 `$this->instagram_api->postMediaComment($media_id, $text);`
+
 * $media_id is the ID of an image
 * $text Text to post as a comment on the media as specified in media-id.
 
 Remove a comment either on the authenticated user's media or authored by the authenticated user: (*Not implemented yet)
 `$this->instagram_api->deleteMediaComment($media_id, $comment_id);`
+
 * $media_id is the ID of an image
 * $comment_id is the ID of a comment
 
@@ -202,14 +205,17 @@ LIKES
 
 Get a list of users who have liked this media:
 `$this->instagram_api->mediaLikes($media_id);`
+
 * $media_id is the ID of an image
 
 Set a like on this media by the currently authenticated user: (*Not implemented yet)
 `$this->instagram_api->postLike($media_id);`
+
 * $media_id is the ID of an image
 
 Remove a like on this media by the currently authenticated user: (*Not implemented yet)
 `$this->instagram_api->removeLike($media_id);`
+
 * $media_id is the ID of an image
 
 
@@ -218,10 +224,12 @@ TAGS
 
 Get information about a tag object:
 `$this->instagram_api->getTags($tag);`
+
 * $tag is the tag name
 
 Get a list of recently tagged media:
 `$this->instagram_api->tagsRecent($tag, $max_id, $min_id);`
+
 * $tag is the tag name
 * $max_id Return media after this max_id
 * $min_id Return media before this min_id
@@ -229,6 +237,7 @@ Get a list of recently tagged media:
 * Use the max_tag_id and min_tag_id parameters in the pagination response to paginate through these objects.
 
 `$this->instagram_api->tagsSearch($query);`
+
 * $query Valid tag name without a leading #. (eg. snow, nofilter)
 
 
@@ -237,10 +246,12 @@ LOCATION
 
 Get information about a location:
 `$this->instagram_api->getLocation($location);`
+
 * $location is the ID of the location
 
 Get a list of recent media objects from a given location:
 `$this->instagram_api->locationRecent($location, $max_id, $min_id, $max_timestamp, $min_timestamp);`
+
 * $location is the ID of the location
 * $max_id Return media after this max_id
 * $min_id Return media before this min_id
@@ -248,6 +259,7 @@ Get a list of recent media objects from a given location:
 * $min_timestamp Return media before this UNIX timestamp
 
 `$this->instagram_api->locationSearch($latitude, $longitude, $foursquare_id, $foursquare_v2_id, $distance);`
+
 * $latitude Latitude of the center search coordinate. If used, lng is required.
 * $longitude Longitude of the center search coordinate. If used, lat is required.
 * $foursquare_id Returns a location mapped off of a foursquare v1 api location id. If used, you are not required to use lat and lng. Note that this method is deprecated; you should use the new foursquare IDs with V2 of their API.
