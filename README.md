@@ -260,5 +260,6 @@ GEOGRAPHIES
 
 Get most recent media from a geography subscription that you created: (*Un-tested)
 `$this->instagram_api->geographyEndpoints($media_id);`
-	* $media_id is the ID of an image
-	* You can only access Geographies that were explicitly created by your OAuth client
+
+* $media_id is the ID of an image
+* You can only access Geographies that were explicitly created by your OAuth client
