@@ -26,11 +26,13 @@ Configuration for Development
 * Authorize your CodeIgniter application to use your Instagram account by using the provided Controller & entering the access token into the corresponding configuration variable
 * Add the following code to your Controller to load the library, set the required variables, and set the access token:
 
+	```php
 	$this->load->library('instagram_api');
 	$ig_client_id = $this->config->item('instagram_client_id');
 	$ig_client_secret = $this->config->item('instagram_client_secret');
 	$ig_redirect_uri = $this->config->item('instagram_redirect_uri');
 	$this->instagram_api->access_token = $this->config->item('instagram_access_token');
+	```
 
 * Use the Function Reference section of this README (below) to make calls to the Instagram API
 
@@ -60,13 +62,13 @@ after loading this library.
 In cases of the USERS endpoint of the Instagram API, where the passed variable is "$userid", you may substitute the string "self" to return the authenticated user's information.
 
 You can use this general code format to make a function call and display it's relevant output:
-```php
+	```php
 	$igdata = $this->instagram_api->getUserFeed("self");
 	$igres = $igdata->data;
 	echo "<pre>";
 	print_r($igres);
 	echo "</pre>";
-```
+	```
 
 
 Library Specific
@@ -128,9 +130,7 @@ Get the most recent media published by a user:
 * $min_timestamp (optional) Return media before this UNIX timestamp
 
 See the authenticated user's list of media they've liked:
-```php
-	$this->instagram_api->getUserLikes($user_id, $max_id, $count);
-```
+`$this->instagram_api->getUserLikes($user_id, $max_id, $count);`
 * $user_id is either the ID of a user or "self" (with the quotes)
 * $max_id (optional) Return media liked before this id
 * $count (optional) Count of media to return
@@ -139,9 +139,8 @@ See the authenticated user's list of media they've liked:
 * Liked media lists are only available for the currently authenticated user.
 
 Search for a user by name:
-```php
-	$this->instagram_api->userSearch($query, $count);
-```
+`$this->instagram_api->userSearch($query, $count);`
+
 * $query A query string
 * $count (optional) Number of users to return
 
@@ -152,15 +151,15 @@ RELATIONSHIPS
 * Required scope: relationships - Be able to follow and unfollow users on a user's behalf
 
 Get the list of users this user follows:
-```php
-	$this->instagram_api->userFollows($user_id);
-```
+`$this->instagram_api->userFollows($user_id);`
+
 * $user_id is either the ID of a user or "self" (with the quotes)
 
 Get the list of users this user is followed by:
 ```php
 	$this->instagram_api->userFollowedBy($user_id);
 ```
+
 * $user_id is either the ID of a user or "self" (with the quotes)
 
 List the users who have requested this user's permission to follow:
