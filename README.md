@@ -25,12 +25,13 @@ Configuration for Development
 		* Load the configuration file in your Controller with the code: $this->config->load('Instagram_config');
 * Authorize your CodeIgniter application to use your Instagram account by using the provided Controller & entering the access token into the corresponding configuration variable
 * Add the following code to your Controller to load the library, set the required variables, and set the access token:
-<code>	$this->load->library('instagram_api');
+
+	$this->load->library('instagram_api');
 	$ig_client_id = $this->config->item('instagram_client_id');
 	$ig_client_secret = $this->config->item('instagram_client_secret');
 	$ig_redirect_uri = $this->config->item('instagram_redirect_uri');
 	$this->instagram_api->access_token = $this->config->item('instagram_access_token');
-</code>
+
 * Use the Function Reference section of this README (below) to make calls to the Instagram API
 
 
