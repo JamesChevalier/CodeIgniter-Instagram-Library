@@ -11,7 +11,7 @@ $config['instagram_client_id']		= '';
 $config['instagram_client_secret']	= '';
 
 // Enter the Access Token provided after authorizing Instagram as the value
-$config['instagram_acces_token']	= '';
+$config['instagram_access_token']	= '';
 
 // Enter your domain name to replace "YOURDOMAIN" in the value below
 $config['instagram_redirect_uri']	= 'http://YOURDOMAIN/instagram/instagramredirect';
